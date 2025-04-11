@@ -3,6 +3,7 @@ package com.example.storagemanagement.model;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "product")
 public class Product {
 
     @Id
@@ -12,14 +13,19 @@ public class Product {
     private String name;
     private double size;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "warehouse_id") // FK to warehouse_area table
+    private WarehouseArea warehouse;
+    
     // Default constructor (required by JPA)
     public Product() {
     }
 
     // Optional constructor for easier object creation
-    public Product(String name, double size) {
+    public Product(String name, double size, WarehouseArea warehouse) {
         this.name = name;
         this.size = size;
+        this.warehouse = warehouse;
     }
 
     // Getters and setters

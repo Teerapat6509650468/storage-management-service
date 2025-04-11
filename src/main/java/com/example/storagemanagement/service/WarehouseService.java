@@ -1,5 +1,6 @@
 package com.example.storagemanagement.service;
 
+import com.example.storagemanagement.kafka.KafkaProducer;
 import com.example.storagemanagement.model.Product;
 import com.example.storagemanagement.model.WarehouseArea;
 import com.example.storagemanagement.repository.ProductRepository;
@@ -15,19 +16,22 @@ public class WarehouseService {
 	
     private final ProductRepository productRepository;
     private final WarehouseAreaRepository warehouseAreaRepository;
+    private final KafkaProducer kafkaProducer;
 
     @Autowired
-    public WarehouseService(ProductRepository productRepository, WarehouseAreaRepository warehouseAreaRepository) {
-        this.productRepository = productRepository;
-        this.warehouseAreaRepository = warehouseAreaRepository;
-    }
+    public WarehouseService(ProductRepository productRepository, WarehouseAreaRepository warehouseAreaRepository,
+			KafkaProducer kafkaProducer) {
+		this.productRepository = productRepository;
+		this.warehouseAreaRepository = warehouseAreaRepository;
+		this.kafkaProducer = kafkaProducer;
+	}
 
     // Get all products in the warehouse
     public List<Product> getAllProducts() {
         return productRepository.findAll();
     }
 
-    // Add a product to the warehouse (Check-in)
+	// Add a product to the warehouse (Check-in)
     public Product addProduct(Product product) {
         // Retrieve the current warehouse area
         Optional<WarehouseArea> warehouseAreaOpt = warehouseAreaRepository.findById(1L);
@@ -39,7 +43,10 @@ public class WarehouseService {
             if (productSize <= warehouseArea.getAvailableArea()) {
                 // Update warehouse available area
                 warehouseArea.setAvailableArea(warehouseArea.getAvailableArea() - productSize);
-                warehouseAreaRepository.save(warehouseArea);
+                warehouseAreaRepository.save(warehouseArea);              
+                // Send a Kafka event message
+                String message = "Product " + product.getName() + " checked in. Size: " + product.getSize();
+                kafkaProducer.sendMessage(message);
                 return productRepository.save(product);
             } else {
                 throw new IllegalStateException("Not enough space in warehouse.");
@@ -65,6 +72,9 @@ public class WarehouseService {
                 warehouseArea.setAvailableArea(warehouseArea.getAvailableArea() + productSize);
                 warehouseAreaRepository.save(warehouseArea);
                 productRepository.deleteById(productId);
+                // Send a Kafka event message
+                String message = "Product " + product.getName() + " checked out. Size: " + product.getSize();
+                kafkaProducer.sendMessage(message);
             } else {
                 throw new IllegalStateException("Warehouse area not initialized.");
             }

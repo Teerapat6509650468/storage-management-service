@@ -3,6 +3,7 @@ package com.example.storagemanagement.model;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "warehouse")
 public class WarehouseArea {
 
     @Id
