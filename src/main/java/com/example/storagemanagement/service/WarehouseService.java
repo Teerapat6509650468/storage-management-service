@@ -2,9 +2,9 @@ package com.example.storagemanagement.service;
 
 import com.example.storagemanagement.kafka.KafkaProducer;
 import com.example.storagemanagement.model.Product;
-import com.example.storagemanagement.model.Warehouse;
+import com.example.storagemanagement.model.WarehouseArea;
 import com.example.storagemanagement.repository.ProductRepository;
-import com.example.storagemanagement.repository.WarehouseRepository;
+import com.example.storagemanagement.repository.WarehouseAreaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +15,11 @@ import java.util.Optional;
 public class WarehouseService {
 	
     private final ProductRepository productRepository;
-    private final WarehouseRepository warehouseAreaRepository;
+    private final WarehouseAreaRepository warehouseAreaRepository;
     private final KafkaProducer kafkaProducer;
 
     @Autowired
-    public WarehouseService(ProductRepository productRepository, WarehouseRepository warehouseAreaRepository,
+    public WarehouseService(ProductRepository productRepository, WarehouseAreaRepository warehouseAreaRepository,
 			KafkaProducer kafkaProducer) {
 		this.productRepository = productRepository;
 		this.warehouseAreaRepository = warehouseAreaRepository;
@@ -34,10 +34,10 @@ public class WarehouseService {
 	// Add a product to the warehouse (Check-in)
     public Product addProduct(Product product) {
         // Retrieve the current warehouse area
-        Optional<Warehouse> warehouseAreaOpt = warehouseAreaRepository.findById(1L);
+        Optional<WarehouseArea> warehouseAreaOpt = warehouseAreaRepository.findById(1L);
 
         if (warehouseAreaOpt.isPresent()) {
-            Warehouse warehouseArea = warehouseAreaOpt.get();
+            WarehouseArea warehouseArea = warehouseAreaOpt.get();
             double productSize = product.getSize();
 
             if (productSize <= warehouseArea.getAvailableArea()) {
@@ -65,10 +65,10 @@ public class WarehouseService {
             double productSize = product.getSize();
 
             // Update warehouse available area
-            Optional<Warehouse> warehouseAreaOpt = warehouseAreaRepository.findById(1L);
+            Optional<WarehouseArea> warehouseAreaOpt = warehouseAreaRepository.findById(1L);
 
             if (warehouseAreaOpt.isPresent()) {
-                Warehouse warehouseArea = warehouseAreaOpt.get();
+                WarehouseArea warehouseArea = warehouseAreaOpt.get();
                 warehouseArea.setAvailableArea(warehouseArea.getAvailableArea() + productSize);
                 warehouseAreaRepository.save(warehouseArea);
                 productRepository.deleteById(productId);
@@ -84,15 +84,15 @@ public class WarehouseService {
     }
 
     // Get the warehouse area information
-    public Warehouse getWarehouse() {
+    public WarehouseArea getWarehouseArea() {
         return warehouseAreaRepository.findById(1L).orElseThrow(() -> new IllegalStateException("Warehouse area not initialized."));
     }
 
     // Initialize the warehouse area (if not already initialized)
-    public void initializeWarehouse(double totalArea) {
-        Optional<Warehouse> warehouseAreaOpt = warehouseAreaRepository.findById(1L);
+    public void initializeWarehouseArea(double totalArea) {
+        Optional<WarehouseArea> warehouseAreaOpt = warehouseAreaRepository.findById(1L);
         if (warehouseAreaOpt.isEmpty()) {
-            Warehouse warehouseArea = new Warehouse(totalArea, totalArea);
+            WarehouseArea warehouseArea = new WarehouseArea(totalArea, totalArea);
             warehouseAreaRepository.save(warehouseArea);
         } else {
             throw new IllegalStateException("Warehouse area is already initialized.");

@@ -1,7 +1,7 @@
 package com.example.storagemanagement.controller;
 
 import com.example.storagemanagement.model.Product;
-import com.example.storagemanagement.model.Warehouse;
+import com.example.storagemanagement.model.WarehouseArea;
 import com.example.storagemanagement.service.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -40,16 +40,16 @@ public class WarehouseController {
         return ResponseEntity.noContent().build();
     }
 
-    // Get warehouse information
+    // Get warehouse area information
     @GetMapping("/area")
-    public Warehouse getWarehouse() {
-        return warehouseService.getWarehouse();
+    public WarehouseArea getWarehouseArea() {
+        return warehouseService.getWarehouseArea();
     }
 
-    // Initialize the warehouse (only once)
+    // Initialize the warehouse area (only once)
     @PostMapping("/area")
-    public ResponseEntity<Void> initializeWarehouse(@RequestBody Warehouse warehouse) {
-        warehouseService.initializeWarehouse(warehouse.getTotalArea());
+    public ResponseEntity<Void> initializeWarehouseArea(@RequestBody WarehouseArea warehouseArea) {
+        warehouseService.initializeWarehouseArea(warehouseArea.getTotalArea());
         return ResponseEntity.ok().build();
     }
 }

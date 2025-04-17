@@ -4,28 +4,28 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "warehouse")
-public class Warehouse {
+public class WarehouseArea {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String warehouse_id;
+    private Long id;
 
     private double totalArea;
     private double availableArea;
 
     // Default constructor (required by JPA)
-    public Warehouse() {
+    public WarehouseArea() {
     }
 
     // Optional constructor for easier object creation
-    public Warehouse(double totalArea, double availableArea) {
+    public WarehouseArea(double totalArea, double availableArea) {
         this.totalArea = totalArea;
         this.availableArea = availableArea;
     }
 
     // Getters and setters
-    public String getWarehouse_id() {
-        return warehouse_id;
+    public Long getId() {
+        return id;
     }
 
     public double getTotalArea() {
@@ -36,8 +36,8 @@ public class Warehouse {
         return availableArea;
     }
 
-    public void setWarehouse_id(String warehouse_id) {
-        this.warehouse_id = warehouse_id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public void setTotalArea(double totalArea) {
