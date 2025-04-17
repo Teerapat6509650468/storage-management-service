@@ -14,15 +14,15 @@ public class Product {
     private double size;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "warehouse_id") // FK to warehouse_area table
-    private WarehouseArea warehouse;
+    @JoinColumn(name = "warehouse_id") // FK to warehouse table
+    private Warehouse warehouse;
     
     // Default constructor (required by JPA)
     public Product() {
     }
 
     // Optional constructor for easier object creation
-    public Product(String name, double size, WarehouseArea warehouse) {
+    public Product(String name, double size, Warehouse warehouse) {
         this.name = name;
         this.size = size;
         this.warehouse = warehouse;
@@ -41,6 +41,10 @@ public class Product {
         return size;
     }
 
+    public Warehouse getWarehouse() {
+        return warehouse;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -51,5 +55,9 @@ public class Product {
 
     public void setSize(double size) {
         this.size = size;
+    }
+
+    public void setWarehouse(Warehouse warehouse) {
+        this.warehouse = warehouse;
     }
 }
