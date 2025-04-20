@@ -35,7 +35,7 @@ public class WarehouseController {
 
     // Remove a product from the warehouse (check-out)
     @DeleteMapping("/products/{productId}")
-    public ResponseEntity<Void> removeProduct(@PathVariable Long productId) {
+    public ResponseEntity<Void> removeProduct(@PathVariable String productId) {
         warehouseService.removeProduct(productId);
         return ResponseEntity.noContent().build();
     }
@@ -45,11 +45,18 @@ public class WarehouseController {
     public WarehouseArea getWarehouseArea() {
         return warehouseService.getWarehouseArea();
     }
+    
+    /*
+    @PostMapping("/area")
+    public ResponseEntity<Void> initializeWarehouseArea(@RequestBody WarehouseArea warehouseArea) {
+        warehouseService.initializeWarehouseArea(warehouseArea.getTotalArea());
+        return ResponseEntity.ok().build();
+    }*/
 
     // Initialize the warehouse area (only once)
     @PostMapping("/area")
     public ResponseEntity<Void> initializeWarehouseArea(@RequestBody WarehouseArea warehouseArea) {
-        warehouseService.initializeWarehouseArea(warehouseArea.getTotalArea());
+        warehouseService.initializeWarehouseArea(warehouseArea);
         return ResponseEntity.ok().build();
     }
 }

@@ -34,7 +34,7 @@ public class WarehouseService {
 	// Add a product to the warehouse (Check-in)
     public Product addProduct(Product product) {
         // Retrieve the current warehouse area
-        Optional<WarehouseArea> warehouseAreaOpt = warehouseAreaRepository.findById(1L);
+        Optional<WarehouseArea> warehouseAreaOpt = warehouseAreaRepository.findById("WH001");
 
         if (warehouseAreaOpt.isPresent()) {
             WarehouseArea warehouseArea = warehouseAreaOpt.get();
@@ -57,7 +57,7 @@ public class WarehouseService {
     }
 
     // Remove a product from the warehouse (Check-out)
-    public void removeProduct(Long productId) {
+    public void removeProduct(String productId) {
         Optional<Product> productOpt = productRepository.findById(productId);
 
         if (productOpt.isPresent()) {
@@ -65,7 +65,7 @@ public class WarehouseService {
             double productSize = product.getSize();
 
             // Update warehouse available area
-            Optional<WarehouseArea> warehouseAreaOpt = warehouseAreaRepository.findById(1L);
+            Optional<WarehouseArea> warehouseAreaOpt = warehouseAreaRepository.findById("WH001");
 
             if (warehouseAreaOpt.isPresent()) {
                 WarehouseArea warehouseArea = warehouseAreaOpt.get();
@@ -85,17 +85,28 @@ public class WarehouseService {
 
     // Get the warehouse area information
     public WarehouseArea getWarehouseArea() {
-        return warehouseAreaRepository.findById(1L).orElseThrow(() -> new IllegalStateException("Warehouse area not initialized."));
+        return warehouseAreaRepository.findById("WH001").orElseThrow(() -> new IllegalStateException("Warehouse area not initialized."));
     }
 
-    // Initialize the warehouse area (if not already initialized)
+    /*
     public void initializeWarehouseArea(double totalArea) {
-        Optional<WarehouseArea> warehouseAreaOpt = warehouseAreaRepository.findById(1L);
+        Optional<WarehouseArea> warehouseAreaOpt = warehouseAreaRepository.findById("WH001");
         if (warehouseAreaOpt.isEmpty()) {
             WarehouseArea warehouseArea = new WarehouseArea(totalArea, totalArea);
             warehouseAreaRepository.save(warehouseArea);
         } else {
             throw new IllegalStateException("Warehouse area is already initialized.");
+        }
+    }
+    */
+
+    // Initialize the warehouse area (if not already initialized)
+    public void initializeWarehouseArea(WarehouseArea warehouseArea) {
+        Optional<WarehouseArea> warehouseAreaOpt = warehouseAreaRepository.findById(warehouseArea.getId());
+        if (warehouseAreaOpt.isEmpty()) {
+            warehouseAreaRepository.save(warehouseArea);
+        } else {
+            throw new IllegalStateException("Warehouse area with ID " + warehouseArea.getId() + " is already initialized.");
         }
     }
 }

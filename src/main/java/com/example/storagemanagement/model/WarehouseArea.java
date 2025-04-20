@@ -7,8 +7,7 @@ import jakarta.persistence.*;
 public class WarehouseArea {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     private double totalArea;
     private double availableArea;
@@ -24,7 +23,7 @@ public class WarehouseArea {
     }
 
     // Getters and setters
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
@@ -36,7 +35,7 @@ public class WarehouseArea {
         return availableArea;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
