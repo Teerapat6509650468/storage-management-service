@@ -72,6 +72,7 @@ public class WarehouseService {
                 warehouseArea.setAvailableArea(warehouseArea.getAvailableArea() + productSize);
                 warehouseAreaRepository.save(warehouseArea);
                 productRepository.deleteById(productId);
+                System.out.println("Product removed successfully.");
                 // Send a Kafka event message
                 String message = "Product " + product.getName() + " checked out. Size: " + product.getSize();
                 kafkaProducer.sendMessage(message);
