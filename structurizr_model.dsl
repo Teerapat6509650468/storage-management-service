@@ -3,28 +3,28 @@ workspace {
     model {
         softwareSystem = softwaresystem "Storage Management Service" {
             service1 = group "Service 1" {
-                service1Api = container "Service 1 API" {
+                service1Api = container "Goods Check-In" {
                     tags "Service 1" "Service API"
                 }
-                container "Service 1 Database" {
+                container "Goods Check-In Database" {
                     tags "Service 1" "Database"
                     service1Api -> this "Reads from and writes to"
                 }
             }
             service2 = group "Service 2" {
-                service2Api = container "Service 2 API" {
+                service2Api = container "Goods Retrieval" {
                     tags "Service 2" "Service API"
                 }
-                container "Service 2 Database" {
+                container "Retrieval Database" {
                     tags "Service 2" "Database"
                     service2Api -> this "Reads from and writes to"
                 }
             }
             service3 = group "Service 3" {
-                service3Api = container "Service 3 API" {
+                service3Api = container "Storage Management" {
                     tags "Service 3" "Service API"
                 }
-                container "Service 3 Database" {
+                container "Storage Management Database" {
                     tags "Service 3" "Database"
                     service3Api -> this "Reads from and writes to"
                 }
@@ -34,9 +34,9 @@ workspace {
                     tag "Kafka"                    
                 }
             }
-            service1Api -> kafkacontainer
-            service2Api -> kafkacontainer
-            kafkacontainer -> service3Api
+            service1Api -> kafkacontainer "send message"
+            service2Api -> kafkacontainer "send message"
+            kafkacontainer -> service3Api "recieve message"
         }
     }
     views {
