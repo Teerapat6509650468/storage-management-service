@@ -34,12 +34,12 @@ workspace {
                     tag "Kafka"                    
                 }
             }
-            service1Api -> kafkacontainer "send message"
-            service2Api -> kafkacontainer "send message"
-            kafkacontainer -> service3Api "recieve message"
-            service3Api -> kafkacontainer "ACCEPT or REJECT request(s)"
-            kafkacontainer -> service1Api "return request"
-            kafkacontainer -> service2Api "return request"
+            service1Api -> kafkacontainer "send message: product(s) check-in warehouse"
+            service2Api -> kafkacontainer "send message: product(s) retrieve warehouse"
+            kafkacontainer -> service3Api "recieve message: check-in/retrive from warehouse"
+            service3Api -> kafkacontainer "send message: ACCEPT or REJECT check-in/retrive request(s)"
+            kafkacontainer -> service1Api "return request: check-in SUCCESS/FAILURE"
+            kafkacontainer -> service2Api "return request: retrieve SUCCESS/FAILURE" 
         }
     }
     views {
