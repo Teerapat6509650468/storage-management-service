@@ -2,8 +2,8 @@ workspace {
 
     model {
         softwareSystem = softwaresystem "Storage Management Service" {
-            service1 = group "Service 1" {
-                service1Api = container "Goods Check-In" {
+            service1 = group "Goods Check-In" {
+                service1Api = container "Goods Check-In API" {
                     tags "Service 1" "Service API"
                 }
                 container "Goods Check-In Database" {
@@ -11,8 +11,8 @@ workspace {
                     service1Api -> this "Reads from and writes to"
                 }
             }
-            service2 = group "Service 2" {
-                service2Api = container "Goods Retrieval" {
+            service2 = group "Goods Retrieval" {
+                service2Api = container "Goods Retrieval API" {
                     tags "Service 2" "Service API"
                 }
                 container "Retrieval Database" {
@@ -20,8 +20,8 @@ workspace {
                     service2Api -> this "Reads from and writes to"
                 }
             }
-            service3 = group "Service 3" {
-                service3Api = container "Storage Management" {
+            service3 = group "Storage Management" {
+                service3Api = container "Storage Management API" {
                     tags "Service 3" "Service API"
                 }
                 container "Storage Management Database" {
@@ -37,17 +37,20 @@ workspace {
             service1Api -> kafkacontainer "send message"
             service2Api -> kafkacontainer "send message"
             kafkacontainer -> service3Api "recieve message"
+            service3Api -> kafkacontainer "ACCEPT or REJECT request(s)"
+            kafkacontainer -> service1Api "return request"
+            kafkacontainer -> service2Api "return request"
         }
     }
     views {
         systemContext softwareSystem {
             include *
-            autolayout lr
+            autolayout
         }
 
         container softwareSystem {
             include *
-            autolayout lr
+            autolayout
         }
 
         theme default
@@ -58,6 +61,10 @@ workspace {
                 background #f5da81
                 color #000000
                 icon "cylinder"
+            }
+                element "Service API" {
+                shape hexagon
+                background #6DB33F
             }
         }
     }
