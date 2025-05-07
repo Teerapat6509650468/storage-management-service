@@ -1,6 +1,7 @@
 workspace {
+
     model {
-        ss1 = softwaresystem "Storage Management Service" {
+        softwareSystem = softwaresystem "Storage Management Service" {
             service1 = group "Service 1" {
                 service1Api = container "Service 1 API" {
                     tags "Service 1" "Service API"
@@ -28,12 +29,30 @@ workspace {
                     service3Api -> this "Reads from and writes to"
                 }
             }
+            kafka = group "Kafka" {
+                kafkacontainer = container "Kafka Container" {
+                    tag "Kafka"                    
+                }
+            }
+            service1Api -> kafkacontainer
+            service2Api -> kafkacontainer
+            kafkacontainer -> service3Api
         }
-        service1Api -> service2Api
-        service3Api -> service2Api
     }
     views {
-                styles {
+        systemContext softwareSystem {
+            include *
+            autolayout lr
+        }
+
+        container softwareSystem {
+            include *
+            autolayout lr
+        }
+
+        theme default
+        
+        styles {
                 element "Database" {
                 shape cylinder
                 background #f5da81
