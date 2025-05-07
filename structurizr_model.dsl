@@ -58,8 +58,7 @@ workspace {
         styles {
                 element "Database" {
                 shape cylinder
-                background #f5da81
-                color #000000
+                background #00a3ee
                 icon "cylinder"
             }
                 element "Service API" {
