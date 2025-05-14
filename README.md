@@ -125,11 +125,12 @@ To test the REST API endpoints of the Storage Management Service using Postman, 
        - URL: `http://localhost:8080/api/warehouse/products`
        - Body (JSON):
          ```json
-         {
-           "name": "Product Name",
-           "size": 10.5,
-           "warehouseId": 1
-         }
+          {
+              "id": "P001",
+              "name": "Product Name",
+              "size": 50,
+              "warehouseId": "WH001"
+          }
          ```
      - **Remove Product**:
        - Method: `DELETE`
