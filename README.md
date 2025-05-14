@@ -42,7 +42,7 @@ cd storagemanagement
 
 ### Build the Project
 ```bash
-mvn clean package -Dmaven.test.skip
+mvn clean package -DskipTests
 ```
 
 ### Run the Application
@@ -62,7 +62,7 @@ The application will be available at `http://localhost:8080`.
    ```
 3. Build the Spring Boot application:
    ```bash
-   mvn clean package
+   mvn clean package -DskipTests
    ```
    The JAR file will be generated in the `target` directory (e.g., `target/storagemanagement-0.0.1-SNAPSHOT.jar`).
 
