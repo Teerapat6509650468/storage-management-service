@@ -82,6 +82,28 @@ The application will be available at `http://localhost:8080`.
 - **Kafka**: Kafka is available at `localhost:9092`.
 - **Kafdrop**: Kafka UI is available at `http://localhost:9000`.
 - **MSSQL Server**: The database is available at `localhost:1433`.
+## Setting Up the Database
+
+To set up the database for the Storage Management Service, follow these steps:
+
+### Using Microsoft SQL Server Management Studio (SSMS)
+
+1. **Open SSMS**:
+   - Launch Microsoft SQL Server Management Studio and connect to your SQL Server instance.
+
+2. **Create the Database**:
+   - Open a new query window in SSMS.
+   - Copy the contents of the `create-database.sql` file located in `src/main/resources/` into the query window.
+
+3. **Execute the Script**:
+   - Run the script by clicking the "Execute" button or pressing `F5`.
+   - This will create the `storage_management` database along with the `warehouse` and `product` tables.
+
+4. **Verify the Database**:
+   - Expand the "Databases" node in the Object Explorer to confirm that the `storage_management` database has been created.
+   - Check the "Tables" node under the database to ensure the `warehouse` and `product` tables exist.
+
+Once the database is set up, you can configure the application to connect to it by updating the `application.properties` file with the appropriate connection details.
 
 ## Configuration
 The application can be configured using the `application.properties` file located in `src/main/resources/`. Update the file to set database connections, Kafka configurations, and other properties.
