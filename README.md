@@ -42,7 +42,7 @@ cd storagemanagement
 
 ### Build the Project
 ```bash
-mvn clean install
+mvn clean package -Dmaven.test.skip
 ```
 
 ### Run the Application
@@ -142,9 +142,11 @@ To test the REST API endpoints of the Storage Management Service using Postman, 
        - URL: `http://localhost:8080/api/warehouse/area`
        - Body (JSON):
          ```json
-         {
-           "totalArea": 2000
-         }
+          {
+            "id": "WH001",
+            "totalArea": 2000,
+            "availableArea": 2000
+          }
          ```
 
 3. **Set Headers**:
